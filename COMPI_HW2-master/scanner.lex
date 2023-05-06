@@ -5,6 +5,9 @@
 
 %option yylineno
 %option noyywrap
+digit            ([0-9])
+letter           ([a-zA-Z])
+letterdigit      ([a-zA-Z0-9])
 whitespace       ([\t\n\r ])
 
 %%
@@ -13,7 +16,7 @@ int                                                                             
 byte                                                                                return BYTE;
 b                                                                                   return B;
 bool                                                                                return BOOL;
-override                                                                            return OVERRIDE;
+auto                                                                                return AUTO;
 and                                                                                 return AND;
 or                                                                                  return OR;
 not                                                                                 return NOT;
@@ -33,10 +36,11 @@ continue                                                                        
 \}                                                                                  return RBRACE;
 =                                                                                   return ASSIGN;
 ==|!=|<|>|<=|>=                                                                     return RELOP;
-\+|\-|\*|\\                                                                             return BINOP;
-[a-zA-Z][a-zA-Z0-9]*                                                                return ID;
-0|[1-9][0-9]*                                                                       return NUM;
-\"([^\n\r\"\\]|\\[rnt"\\])+\"                                                         return STRING;
-\/\/[^\r\n]*[\r|\n|\r\n]?                                                           ;
+\+|\-                                                                               return ADD_SUB;
+\*|\\                                                                               return MULT_DIV;
+{letter}{letterdigit}*                                                              return ID;
+([1-9]+{digit}*)|0                                                                  return NUM;
+\"([^\n\r\"\\]|\\[rnt"\\])+\"                                                       return STRING;
+\/\/[^\n\r]*[\r|\n|\r\n]?                                                           ;
 {whitespace}                                                                        ;
 .                                                                                   {output::errorLex(yylineno); exit(0);}
