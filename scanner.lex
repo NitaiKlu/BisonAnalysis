@@ -5,15 +5,13 @@
 
 %option yylineno
 %option noyywrap
-whitespace       ([\t\n\r ])
-
 %%
+
 void                                                                                return VOID;
 int                                                                                 return INT;
 byte                                                                                return BYTE;
 b                                                                                   return B;
 bool                                                                                return BOOL;
-override                                                                            return OVERRIDE;
 and                                                                                 return AND;
 or                                                                                  return OR;
 not                                                                                 return NOT;
@@ -25,6 +23,7 @@ else                                                                            
 while                                                                               return WHILE;
 break                                                                               return BREAK;
 continue                                                                            return CONTINUE;
+override                                                                            return OVERRIDE;
 ;                                                                                   return SC;
 ,                                                                                   return COMMA;
 \(                                                                                  return LPAREN;
@@ -33,10 +32,11 @@ continue                                                                        
 \}                                                                                  return RBRACE;
 =                                                                                   return ASSIGN;
 ==|!=|<|>|<=|>=                                                                     return RELOP;
-\+|\-|\*|\\                                                                             return BINOP;
+\+|\-|\*|\/                                                                         return BINOP;
 [a-zA-Z][a-zA-Z0-9]*                                                                return ID;
 0|[1-9][0-9]*                                                                       return NUM;
-\"([^\n\r\"\\]|\\[rnt"\\])+\"                                                         return STRING;
+\"([^\n\r\"\\]|\\[rnt"\\])+\"                                                       return STRING;
 \/\/[^\r\n]*[\r|\n|\r\n]?                                                           ;
-{whitespace}                                                                        ;
-.                                                                                   {output::errorLex(yylineno); exit(0);}
+[\t\n\r ]                                                                           ;
+.                                                                                   {output::errorLex(yylineno); exit(1);}
+%%                                                                                        

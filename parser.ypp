@@ -12,7 +12,6 @@
 
 
     %right ASSIGN
-
     %left OR
     %left AND
     %left RELOP
@@ -91,5 +90,5 @@ int main(){
 
 int yyerror(const char * error){
 	errorSyn(yylineno);
-	exit(0);
+	exit(1);
 }
